@@ -83,6 +83,8 @@ namespace active911 {
 			// Fill the pool
 			while(this->pool.size() < this->pool_size){
 
+				cout << "Pool is " << this->pool.size() << " and we want " << this->pool_size << ". Creating..." << endl;
+
 				this->pool.push_back(this->factory->create());
 			}
 
@@ -119,6 +121,7 @@ namespace active911 {
 						try {
 
 							// If we are able to create a new connection, return it
+							cout << "Creating new connection to replace discarded connection " << endl;
 							shared_ptr<Connection> conn=this->factory->create();
 							this->borrowed.erase(it);
 							this->borrowed.insert(conn);
