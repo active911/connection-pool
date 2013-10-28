@@ -14,15 +14,16 @@ We needed a safe, efficient way to concurrently access MySQL without connection 
 - Pre-opens arbitrary number of connections
 - Used connections can be returned for immediate reuse
 - Unreturned connections are automatically closed and replaced (thanks to shared_ptr reference counting)
+- GPL license
 
 
-### MySQL Example
+### Example
 ```cpp
 #include <string>
 #include <boost/shared_ptr.hpp>
 #include "MySQLConnection.h"
 
-// Create a pool of 5 connections
+// Create a pool of 5 MySQL connections
 boost::shared_ptr<ConnectionPool<MySQLConnection> > mysql_pool;
 shared_ptr<MySQLConnectionFactory>mysql_connection_factory(new MySQLConnectionFactory("mysql_server","mysql_username","mysql_password"));
 shared_ptr<ConnectionPool<MySQLConnection> >mysql_pool(new ConnectionPool<MySQLConnection>(5, mysql_connection_factory));
@@ -46,5 +47,5 @@ We managed to get all of this WITHOUT a separate curator thread.  When you call 
 
 ### Dependencies
 
-Boost
-Connection/C++ (for MySQL implementation)
+- Boost
+- Connection/C++ (for MySQL implementation)
