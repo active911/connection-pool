@@ -1,0 +1,3 @@
+connection-pool : Generic, efficient, thread safe connection pooling for C++
+Copyright 2013 Active911 Inc.
+Originally authored by Joseph Sullivan in Oregon, USA

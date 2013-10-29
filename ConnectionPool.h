@@ -1,25 +1,42 @@
+/* Copyright 2013 Active911 Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http: *www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-// class Connection
-// class ConnectionFactory
-// class ConnectionPool<T>
-// struct ConnectionPoolStats
-//
-// ConnectionPool manages a connection pool of some kind.  Worker threads can ask for a connection, and must return it when done.
-// Each connection is guaranteed to be healthy, happy, and free of disease.
-//
-// Connection and ConnectionFactory are virtual classes that should be overridden to their actual type.
-//
-// NOTE: To avoid using templates AND inheritance at the same time in the ConnectionFactory, ConnectionFactory::create must create a derved type 
-// but return the base class. 	
- 
+
+/* ConnectionPool manages a connection pool of some kind.  Worker threads can ask for a connection, and must return it when done.
+ * Each connection is guaranteed to be healthy, happy, and free of disease.
+ *
+ * Connection and ConnectionFactory are virtual classes that should be overridden to their actual type.
+ *
+ * NOTE: To avoid using templates AND inheritance at the same time in the ConnectionFactory, ConnectionFactory::create must create a derved type 
+ * but return the base class. 	
+ */
+
+
+// Define your custom logging function by overriding this #define
+#ifndef _DEBUG
+	#define _DEBUG(x)
+#endif
+
 
 
 #include <deque>
 #include <set>
-#include <iostream>
 #include <boost/shared_ptr.hpp>
 #include <boost/thread/mutex.hpp>
 #include <exception>
+#include <string>
 using namespace std;
 using boost::shared_ptr;
 
@@ -83,8 +100,6 @@ namespace active911 {
 			// Fill the pool
 			while(this->pool.size() < this->pool_size){
 
-				cout << "Pool is " << this->pool.size() << " and we want " << this->pool_size << ". Creating..." << endl;
-
 				this->pool.push_back(this->factory->create());
 			}
 
@@ -121,7 +136,7 @@ namespace active911 {
 						try {
 
 							// If we are able to create a new connection, return it
-							cout << "Creating new connection to replace discarded connection " << endl;
+							_DEBUG("Creating new connection to replace discarded connection");
 							shared_ptr<Connection> conn=this->factory->create();
 							this->borrowed.erase(it);
 							this->borrowed.insert(conn);

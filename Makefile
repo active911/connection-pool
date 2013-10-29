@@ -4,7 +4,7 @@ all: test
 
 
 test: test/test_1
-#	/usr/bin/perl run_tests.pl
+	/usr/bin/perl run_tests.pl
 
 example: example.o 
 	$(CXX) $^ -o $@ -L/usr/local/lib 
